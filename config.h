@@ -21,8 +21,7 @@ static const char *colors[][3]      = {
 /* tagging */
 static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
 
-static const Rule rules[] = {
-};
+static const Rule *rules = NULL;
 
 /* layout(s) */
 static const float mfact     = 0.55; /* factor of master area size [0.05..0.95] */
@@ -51,27 +50,9 @@ static const Layout layouts[] = {
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
 static const char *termcmd[]  = { "st", NULL };
-static const char *termcmd[]  = { "st", NULL };
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
-        { ControlMask,                  XK_F4,     spawn,          {.v = {"volume", "cycle", NULL}} },
-        { ControlMask,                  XK_F3,     spawn,          {.v = {"volume", "inc", NULL}} },
-        { ControlMask,                  XK_F2,     spawn,          {.v = {"volume", "dec", NULL}} },
-        { ControlMask,                  XK_F1,     spawn,          {.v = {"volume", "mute", NULL}} },
-        { 0,                            XK_XF86AudioRaiseVolume,   spawn, {.v = {"volume", "inc", NULL}} },
-        { 0,                            XK_XF86AudioLowerVolume,   spawn, {.v = {"volume", "dec", NULL}} },
-        { 0,                            XK_XF86AudioMute,          spawn, {.v = {"volume", "mute", NULL}} },
-
-        { 0,                            XK_XF86MonBrightnessUp,    spawn, {.v = {"brightness", "up", NULL}} },
-        { 0,                            XK_XF86MonBrightnessDown,  spawn, {.v = {"brightness", "down", NULL}} },
-
-        { ControlMask,                  XK_F5,     spawn,          {.v = {"brightness", "up", NULL}} },
-        { ControlMask,                  XK_F4,     spawn,          {.v = {"brightness", "down", NULL}} },
-
-	{ MODKEY,                       XK_d,      spawn,          {.v = dmenucmd } },
-	{ MODKEY,                       XK_Return, spawn,          {.v = termcmd } },
-
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
 	TAGKEYS(                        XK_3,                      2)
@@ -83,17 +64,17 @@ static Key keys[] = {
 	TAGKEYS(                        XK_9,                      8)
 
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
-	{ MODKEY,                       XK_F2,     spawn,          {.v = {"qutebrowser"}} },
 	{ MODKEY,                       XK_q,      killclient,     {0} },
 
 
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
+	{ MODKEY|ShiftMask,             XK_j,      incnmaster,     {.i = -1 } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
+	{ MODKEY|ShiftMask,             XK_k,      incnmaster,     {.i = +1 } },
 
-	{ MODKEY,                       XK_i,      incnmaster,     {.i = +1 } },
-	{ MODKEY,                       XK_d,      incnmaster,     {.i = -1 } },
 	{ MODKEY,                       XK_h,      setmfact,       {.f = -0.05} },
 	{ MODKEY,                       XK_l,      setmfact,       {.f = +0.05} },
+
 	{ MODKEY,                       XK_f,      zoom,           {0} },
 	{ MODKEY,                       XK_Tab,    view,           {0} },
 	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
