@@ -2138,6 +2138,7 @@ main(int argc, char *argv[])
 	checkotherwm();
 	setup();
         system("sxhkd &");
+        system("dunst &");
         system("bar &");
 #ifdef __OpenBSD__
 	if (pledge("stdio rpath proc exec", NULL) == -1)
