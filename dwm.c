@@ -2139,7 +2139,7 @@ main(int argc, char *argv[])
 	setup();
         system("sxhkd &");
         system("dunst &");
-        system("bar &");
+        system(".local/bin/bar &");
 #ifdef __OpenBSD__
 	if (pledge("stdio rpath proc exec", NULL) == -1)
 		die("pledge");
